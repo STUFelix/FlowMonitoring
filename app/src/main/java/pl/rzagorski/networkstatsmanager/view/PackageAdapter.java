@@ -39,7 +39,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.PackageV
         Package packageItem = mPackageList.get(position);
         holder.name.setText(packageItem.getName());
         holder.packageName.setText(packageItem.getPackageName());
-        holder.version.setText(packageItem.getVersion());
+        holder.version.setText("versionName: " + packageItem.getVersion());
         try {
             holder.icon.setImageDrawable(holder.context.getPackageManager().getApplicationIcon(packageItem.getPackageName()));
         } catch (PackageManager.NameNotFoundException e) {

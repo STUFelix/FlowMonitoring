@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import pl.rzagorski.networkstatsmanager.R;
 import pl.rzagorski.networkstatsmanager.model.Package;
+import pl.rzagorski.networkstatsmanager.rank.RankListActivity;
 import pl.rzagorski.networkstatsmanager.utils.OnPackageClickListener;
 
 /**
@@ -28,16 +31,38 @@ import pl.rzagorski.networkstatsmanager.utils.OnPackageClickListener;
 public class ListActivity extends AppCompatActivity implements OnPackageClickListener {
 
     RecyclerView recyclerView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("应用包基础信息");
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_rank:
+                        startActivity(new Intent(ListActivity.this, RankListActivity.class));
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
         List<Package> packageList = getPackagesData();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new PackageAdapter(packageList, this));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private List<Package> getPackagesData() {

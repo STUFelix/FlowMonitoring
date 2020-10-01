@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".rank.RankListActivity">
+        </activity>
+        <activity
             android:name=".view.StatsActivity"
             android:theme="@style/AppTheme.Transparent">
         </activity>
